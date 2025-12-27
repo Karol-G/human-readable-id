@@ -10,8 +10,14 @@ requires-python = ">= 3.9"
 license = { text = "MIT" }
 authors = [{ name = "Karol Gotkowski", email = "KarolGotkowski@gmx.de" }]
 classifiers = [
+  "Programming Language :: Python",
   "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Operating System :: OS Independent",
 ]
 keywords = ["copier", "template", "python"]
@@ -31,8 +37,15 @@ Homepage = "https://github.com/Karol-G/human-readable-id"
 Source = "https://github.com/Karol-G/human-readable-id"
 Issues = "https://github.com/Karol-G/human-readable-id/issues"
 
+[project.scripts]
+hrid = "human_readable_id.cli:main"
+
 [tool.setuptools]
 package-dir = { "" = "." }
+include-package-data = true
+
+[tool.setuptools.package-data]
+human_readable_id = ["words/*.txt"]
 
 [tool.setuptools.packages.find]
 where = ["."]

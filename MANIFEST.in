@@ -1,0 +1,6 @@
+include LICENSE
+include README.md
+
+graft human_readable_id/words
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

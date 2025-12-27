@@ -129,21 +129,21 @@ hrid -n 8 --hash --collision # distinct_sphere_3f9b7140
 Basic usage:
 
 ```python
-from human_readable_id import generate_rid
+from human_readable_id import generate_hrid
 
-generate_rid() # alert_tarn_100
+generate_hrid() # alert_tarn_100
 ```
 
 Deterministic generation:
 
 ```python
-generate_rid(seed="my_seed") # calm_menu_496
+generate_hrid(seed="my_seed") # calm_menu_496
 ```
 
 Custom configuration:
 
 ```python
-generate_rid(
+generate_hrid(
     seed="experiment-001",
     words=3,
     numbers=8,
@@ -170,7 +170,7 @@ IDs are built from curated wordlists:
 * **predicates** (verbs / adjectives)
 * **objects** (nouns)
 
-Canonical wordlists live in `python/src/human_readable_id/data/words/` and ship with the Python package. The Bash installer copies those same files into `~/.local/share/human-readable-id/` for the CLI. Update the canonical files and rerun the installer (or copy them manually) if you want custom lists.
+Canonical wordlists live in `python/src/human_readable_id/words/` and ship with the Python package. The Bash installer copies those same files into `~/.local/share/human-readable-id/` for the CLI. Update the canonical files and rerun the installer (or copy them manually) if you want custom lists.
 
 ## Contributing
 
