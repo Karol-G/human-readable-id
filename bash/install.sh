@@ -20,6 +20,17 @@ install_file() {
   cp "$src" "$dst"
 }
 
+append_rc_export() {
+  local export_line='export HRID_WORDS_DIR="$HOME/.local/share/human-readable-id"'
+  for rc in "$HOME/.bashrc" "$HOME/.zshrc"; do
+    [[ -f "$rc" ]] || continue
+    if ! grep -Fq "$export_line" "$rc"; then
+      printf '\n# Added by hrid installer\n%s\n' "$export_line" >> "$rc"
+      echo "Added HRID_WORDS_DIR to $rc"
+    fi
+  done
+}
+
 download_to() {
   local url="$1" dst="$2"
   command -v curl >/dev/null 2>&1 || err "curl is required to download ${url}"
@@ -55,6 +66,8 @@ main() {
 
   echo "Installed hrid to ${BIN_DIR}/hrid"
   echo "Installed wordlists to ${SHARE_DIR}"
+  append_rc_export
+  echo 'To use immediately in this shell, run: export HRID_WORDS_DIR="$HOME/.local/share/human-readable-id"'
 }
 
 main "$@"
