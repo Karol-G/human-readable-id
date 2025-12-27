@@ -10,8 +10,6 @@ from typing import Iterable
 
 
 DATA_DIR = Path(__file__).resolve().parent / "words"
-I64_MAX = 9_223_372_036_854_775_807
-DBL_EXACT_MAX = 9_007_199_254_740_992  # 2**53
 
 
 class HridError(Exception):
@@ -126,13 +124,20 @@ def generate_hrid(
     return out
 
 
-def _sci_from_log10(log10_val: float) -> str:
-    if log10_val < 0:
-        return "≈ 0"
-    k = int(log10_val)
-    frac = log10_val - k
-    a = math.exp(frac * math.log(10))
-    return f"≈ {a:.3g}e{k}"
+def _collision_threshold_for_expected_one(space_size: int) -> int:
+    """Smallest n such that n(n-1)/2 >= space_size."""
+    if space_size <= 0:
+        return 0
+    discriminant = 1 + 8 * space_size
+    root = math.isqrt(discriminant)
+    if root * root < discriminant:
+        root += 1
+    return (root + 2) // 2
+
+
+def _fmt_int(n: int) -> str:
+    """Readable formatting with thousand separators."""
+    return f"{n:,}"
 
 
 def collision_report(
@@ -143,7 +148,7 @@ def collision_report(
     predicates_len: int,
     objects_len: int,
 ) -> str:
-    """Compute collision/capacity report matching the Bash awk output."""
+    """Compute collision/capacity report with exact integer arithmetic."""
     if words_count < 2:
         raise HridError("--words must be >= 2")
     if numbers < 0:
@@ -151,17 +156,13 @@ def collision_report(
     if predicates_len <= 0 or objects_len <= 0:
         raise HridError("Wordlists must not be empty")
 
-    lg_16 = math.log10(16)
-    lg_10 = math.log10(10)
+    suffix_space = 1
+    if numbers > 0:
+        base = 16 if use_hash_suffix else 10
+        suffix_space = base**numbers
 
-    if numbers == 0:
-        suffix_lg = 0.0
-    elif use_hash_suffix:
-        suffix_lg = numbers * lg_16
-    else:
-        suffix_lg = numbers * lg_10
-
-    m_lg = (words_count - 1) * math.log10(predicates_len) + math.log10(objects_len) + suffix_lg
+    combinations = (predicates_len ** (words_count - 1)) * objects_len * suffix_space
+    collision_threshold = _collision_threshold_for_expected_one(combinations)
 
     lines: list[str] = []
     lines.append(f"predicates: {predicates_len}")
@@ -175,37 +176,14 @@ def collision_report(
         lines.append(f"suffix:     digits length {numbers} (space=10^{numbers})")
     lines.append("")
 
-    if m_lg > math.log10(I64_MAX):
-        lines.append(f"combinations_M: {_sci_from_log10(m_lg)}")
-        lines.append("combinations_M: > 2^63-1")
-    else:
-        m_val = math.exp(m_lg * math.log(10))
-        if m_val <= DBL_EXACT_MAX:
-            lines.append(f"combinations_M: {m_val:.0f}")
-        else:
-            lines.append(f"combinations_M: {_sci_from_log10(m_lg)} (< 2^63-1)")
-
-    n_lg = 0.5 * (m_lg + math.log10(2))
-    if n_lg > math.log10(I64_MAX):
-        lines.append(f"n_for_Ecollision_1: {_sci_from_log10(n_lg)}")
-        lines.append("n_for_Ecollision_1: > 2^63-1")
-    else:
-        n_val = math.exp(n_lg * math.log(10))
-        if n_val <= DBL_EXACT_MAX:
-            n_int = int(n_val) if n_val == int(n_val) else int(n_val) + 1
-            lines.append(f"n_for_Ecollision_1: {n_int:.0f}")
-        else:
-            lines.append(f"n_for_Ecollision_1: {_sci_from_log10(n_lg)} (< 2^63-1)")
+    lines.append(f"combinations_M: {_fmt_int(combinations)}")
+    lines.append(f"n_for_Ecollision_1: {_fmt_int(collision_threshold)}")
 
     lines.append("")
     lines.append("Notes:")
-    lines.append("- combinations_M is the total number of distinct readable-ids possible with the current settings.")
-    lines.append('- "≈ X.YZeK" means the value is shown in scientific notation because it is too large')
-    lines.append("  to be represented exactly without arbitrary-precision arithmetic.")
-    lines.append('- "> 2^63-1" means the value exceeds the maximum signed 64-bit integer and therefore')
-    lines.append("  cannot be printed exactly using native integer arithmetic.")
-    lines.append("- n_for_Ecollision_1 is the approximate number of generated readable-ids at which the expected")
-    lines.append("  number of collisions reaches 1 (birthday paradox approximation).")
+    lines.append("- combinations_M is the total number of distinct human-readable-ids possible with the current settings.")
+    lines.append("- values are computed exactly using integer arithmetic (no floating-point truncation).")
+    lines.append("- n_for_Ecollision_1 is the smallest number of generated human-readable-ids where expected collisions reach 1.")
     return "\n".join(lines)
 
 

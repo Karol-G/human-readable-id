@@ -158,8 +158,10 @@ human-readable-id explicitly exposes the size of its ID space.
 
 Using `--collision` (or the Python equivalent) reports:
 
-* total number of possible IDs
-* approximate number of generated IDs needed for an *expected* collision of 1
+* total number of possible IDs (exact)
+* smallest number of generated IDs needed for an *expected* collision of 1 (exact)
+
+The Python implementation computes these values with integer arithmetic (no rounding); the Bash CLI falls back to approximate formatting for extremely large spaces.
 
 This helps choose safe parameters instead of guessing.
 
