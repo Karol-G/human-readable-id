@@ -34,7 +34,7 @@ They are:
 
 ## Features
 
-* Predicate–object word structure for readable IDs
+* Predicate–object word structure for human readable IDs
 * Friendly words only
 * Deterministic generation from a seed
 * Configurable number of words and suffix length
@@ -76,7 +76,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 ### CLI (Both Python and Bash)
 
-Generate a readable ID:
+Generate a human readable ID:
 
 ```bash
 hrid # elastic_jargon_503, medieval_chess_277, nine_crayfish_660

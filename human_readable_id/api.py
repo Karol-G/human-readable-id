@@ -1,4 +1,4 @@
-"""Python implementation of the readable-id generator."""
+"""Python implementation of the human-readable-id generator."""
 
 from __future__ import annotations
 
@@ -76,7 +76,7 @@ def generate_hrid(
     predicates_path: Path | None = None,
     objects_path: Path | None = None,
 ) -> str:
-    """Generate a readable-id matching the Bash implementation."""
+    """Generate a human-readable-id matching the Bash implementation."""
     if words < 2:
         raise HridError("--words must be >= 2")
     if numbers < 0:

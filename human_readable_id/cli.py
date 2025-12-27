@@ -1,4 +1,4 @@
-"""Command-line entrypoint for readable-id."""
+"""Command-line entrypoint for human-readable-id."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from .api import HridError, collision_report_from_files, generate_hrid
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="hrid",
-        description="readable-id generator (Python) mirroring the Bash implementation.",
+        description="human-readable-id generator (Python) mirroring the Bash implementation.",
     )
     parser.add_argument("seed", nargs="?", help="Optional seed for deterministic output.")
     parser.add_argument("-w", "--words", type=int, default=2, help="Number of words (default: 2).")
