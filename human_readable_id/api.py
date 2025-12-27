@@ -62,7 +62,10 @@ def _seeded_hex_len(seed: str, length: int) -> str:
 def _trim_word(word: str, limit: int) -> str:
     if limit <= 0:
         return word
-    return word[:limit]
+    trimmed = word[:limit]
+    if len(trimmed) < limit:
+        trimmed = trimmed + ("0" * (limit - len(trimmed)))
+    return trimmed
 
 
 def generate_hrid(
