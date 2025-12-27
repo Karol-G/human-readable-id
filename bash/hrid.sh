@@ -99,7 +99,13 @@ trim_word() {
   local w="$1"
   local n="$2"
   if (( n > 0 )); then
-    printf '%s' "${w:0:n}"
+    local trimmed="${w:0:n}"
+    local pad=$(( n - ${#trimmed} ))
+    if (( pad > 0 )); then
+      printf '%s%0*s' "$trimmed" "$pad" ""
+    else
+      printf '%s' "$trimmed"
+    fi
   else
     printf '%s' "$w"
   fi
