@@ -1,15 +1,8 @@
-<table>
-  <tr>
-    <td style="vertical-align: middle; padding-right: 12px;">
-      <img src="hrid.png" alt="hrid logo" width="48" />
-    </td>
-    <td style="vertical-align: middle;">
-      <h1 style="margin: 0;">
-        <big>Human Readable ID</big>
-      </h1>
-    </td>
-  </tr>
-</table>
+<h1>
+  <img src="hrid.png" alt="hrid logo" width="48"
+       style="vertical-align: -4px;" />
+  <big>Human Readable ID</big>
+</h1>
 
 ![PyPI](https://img.shields.io/pypi/v/human-readable-id?logo=pypi&color=brightgreen)
 ![Python Version](https://img.shields.io/pypi/pyversions/human-readable-id?logo=python)
