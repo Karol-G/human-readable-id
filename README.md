@@ -1,6 +1,6 @@
 <h1>
   <img src="hrid.png" alt="hrid logo" width="48"
-       style="vertical-align: -4px;" />
+       style="vertical-align: -40px;" />
   <big>Human Readable ID</big>
 </h1>
 
