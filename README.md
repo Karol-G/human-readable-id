@@ -1,6 +1,6 @@
 <h1>
-  <img src="hrid.png" alt="hrid logo" width="40" />
-  <big><big>Human Readable ID</big></big>
+  <img src="hrid.png" alt="hrid logo" width="34" />
+  <big>Human Readable ID</big>
 </h1>
 
 ![PyPI](https://img.shields.io/pypi/v/human-readable-id?logo=pypi&color=brightgreen)
