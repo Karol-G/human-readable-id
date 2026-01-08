@@ -1,5 +1,11 @@
-<img src="hrid.png" alt="hrid logo" width="25" /> Human Readable ID
-=================
+<div style="display: flex; align-items: center; gap: 10px;">
+  <img src="hrid.png" alt="hrid logo" width="40" />
+  <span style="font-size: 2.8em; font-weight: 600;">
+    Human Readable ID
+  </span>
+</div>
+
+---
 
 ![PyPI](https://img.shields.io/pypi/v/human-readable-id?logo=pypi&color=brightgreen)
 ![Python Version](https://img.shields.io/pypi/pyversions/human-readable-id?logo=python)
