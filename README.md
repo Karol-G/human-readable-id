@@ -1,4 +1,4 @@
-Human Readable ID
+<img src="hrid.png" alt="hrid logo" width="25" /> Human Readable ID
 =================
 
 ![PyPI](https://img.shields.io/pypi/v/human-readable-id?logo=pypi&color=brightgreen)
